@@ -8,7 +8,6 @@ function MenuScroll:new(area, x, y, opts)
     self.upKey, self.downKey= "w","s"
     input:bind(self.upKey, self.upKey)
     input:bind(self.downKey, self.downKey)
-    if self.center then self.x = self.x-self.width/2 end
 end
 function MenuScroll:update(dt)
     self:playerInput()
