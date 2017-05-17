@@ -1,7 +1,10 @@
+--! MenuScroll.lua
+--! This file underlines the text objects from area passed in opts
 MenuScroll = Rectangle:extend()
 function MenuScroll:new(area, x, y, opts)
     MenuScroll.super.new(self, area, x, y, opts)
-    self.currentLocation = 1
+    self.currentLocation = 3
+    self:nextLocation()
     self.upKey, self.downKey= "w","s"
     input:bind(self.upKey, self.upKey)
     input:bind(self.downKey, self.downKey)
