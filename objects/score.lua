@@ -1,4 +1,5 @@
 --! file:score.lua
+--! builds a seven segment display out of a 60x100 rectangle array
 --! VERY UGLY PLEASE IMPROVE
 --! TODO
 Score = GameObject:extend()
@@ -56,11 +57,6 @@ function Score:draw()
    drawScore(self.nTable)
   elseif self.scoreCount == "G" then
    drawScore(self.gTable)
-  elseif self.scoreCount == 10 then
-    local PlayerIndex = self.area:getIndex('player1Score')
-    self.area.game_objects[PlayerIndex].scoreCount = 0
-    PlayerIndex = self.area:getIndex('player2Score')
-    self.area.game_objects[PlayerIndex].scoreCount = 0
   end
 end
 function drawScore(enteredTable)
