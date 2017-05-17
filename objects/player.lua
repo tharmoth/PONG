@@ -6,10 +6,14 @@ function Player:new(area, x, y, opts)
     input:bind(self.downKey, self.downKey)
 end
 function Player:update(dt)
-    Player.super.update(self, dt)
+    --! Get where we want to move
     self:playerInput()
+    --! Perfom Collision Check
     self:stopCollision("bottomBoarder",topBounce)
     self:stopCollision("topBoarder",bottomBounce)
+    --! Deal with Collision
+    --! Update player location
+    Player.super.update(self, dt)
 end
 function Player:playerInput()
     if input:pressed(self.upKey) then self.speedy = self.speedy - 500 end
