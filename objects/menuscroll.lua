@@ -4,10 +4,10 @@ MenuScroll = Rectangle:extend()
 --! Uses (area, N/A, N/A, {locations{names of items to be underlined}, height, upKey, downKey, name})
 function MenuScroll:new(area, x, y, opts)
     MenuScroll.super.new(self, area, 0, 0, opts)
-    self.height = height or 2
-    self.upKey = self.upKey or "w",
+    self.height  = self.height  or 2
+    self.upKey   = self.upKey   or "w",
     self.downKey = self.downKey or "s"
-    input:bind(self.upKey, self.upKey)
+    input:bind(self.upKey,   self.upKey)
     input:bind(self.downKey, self.downKey)
     --! Underline the first object
     self.currentLocation = 1    
