@@ -47,14 +47,22 @@ end
 function rightBound(self,collisionObject)
   wallHit:play()
   local winningPlayer = self.area:getIndex('player1Score')
-  self.area.game_objects[winningPlayer].scoreCount = self.area.game_objects[winningPlayer].scoreCount + 1
+     if self.area.game_objects[winningPlayer].scoreCount != 9 then        
+        self.area.game_objects[winningPlayer].scoreCount = self.area.game_objects[winningPlayer].scoreCount + 1   
+    else       
+        self.area.game_objects[winningPlayer].scoreCount = 0 
+    end  
   self.area:addGameObject('Ball',390,300,{width = 20, height = 20, name = 'ball'})
   self.dead = true
 end
 function leftBound(self,collisionObject)
   wallHit:play()
   local winningPlayer = self.area:getIndex('player2Score')
-  self.area.game_objects[winningPlayer].scoreCount = self.area.game_objects[winningPlayer].scoreCount + 1
+    if self.area.game_objects[winningPlayer].scoreCount != 9 then
+        self.area.game_objects[winningPlayer].scoreCount = self.area.game_objects[winningPlayer].scoreCount + 1
+    else
+       self.area.game_objects[winningPlayer].scoreCount = 0 
+    end    
   self.area:addGameObject('Ball',390,300,{width = 20, height = 20, name = 'ball'})
   self.dead = true
 end
