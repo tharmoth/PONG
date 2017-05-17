@@ -1,12 +1,23 @@
 --! file:score.lua
 --! builds a seven segment display out of a 60x100 rectangle array
---! VERY UGLY PLEASE IMPROVE
---! TODO
+--[[ 
+       6 6 6
+      1     5
+      1     5
+      1     5
+       7 7 7 
+      2     4
+      2     4
+      2     4
+       3 3 3
+ ]]--
 Score = GameObject:extend()
 function Score:new(area, x, y, opts)  
    Score.super.new(self, area, x, y, opts)
    self.scoreCount = opts.scoreCount or 0
    self.scoreTable = {}
+   
+    --! Sevensegment rectangles
    table.insert(self.scoreTable, Rectangle(self.area, x,    y,    {width = 20, height = 60})) 
    table.insert(self.scoreTable, Rectangle(self.area, x,    y+40, {width = 20, height = 60}))
    table.insert(self.scoreTable, Rectangle(self.area, x,    y+80, {width = 60, height = 20}))
@@ -15,19 +26,20 @@ function Score:new(area, x, y, opts)
    table.insert(self.scoreTable, Rectangle(self.area, x,    y,    {width = 60, height = 20}))
    table.insert(self.scoreTable, Rectangle(self.area, x,    y+40, {width = 60, height = 20}))
    
-   self.oneTable = {self.scoreTable[4],self.scoreTable[5]}
-   self.twoTable = {self.scoreTable[2],self.scoreTable[3],self.scoreTable[5],self.scoreTable[6],self.scoreTable[7]}
-   self.threeTable = {self.scoreTable[3],self.scoreTable[4],self.scoreTable[5],self.scoreTable[6],self.scoreTable[7]}
-   self.fourTable = {self.scoreTable[1],self.scoreTable[4],self.scoreTable[5],self.scoreTable[7]}
-   self.fiveTable = {self.scoreTable[1],self.scoreTable[3],self.scoreTable[4],self.scoreTable[6],self.scoreTable[7]}
-   self.sixTable = {self.scoreTable[1],self.scoreTable[2],self.scoreTable[3],self.scoreTable[4],self.scoreTable[6],self.scoreTable[7]}
-   self.sevenTable = {self.scoreTable[4],self.scoreTable[5],self.scoreTable[6]}
-   self.eightTable = self.scoreTable
-   self.nineTable = {self.scoreTable[1],self.scoreTable[4],self.scoreTable[5],self.scoreTable[6],self.scoreTable[7]}
-   self.zeroTable = {self.scoreTable[1],self.scoreTable[2],self.scoreTable[3],self.scoreTable[4],self.scoreTable[5],self.scoreTable[6]}
-   self.pTable = {self.scoreTable[1],self.scoreTable[2],self.scoreTable[5],self.scoreTable[6],self.scoreTable[7]}
-   self.nTable = {self.scoreTable[1],self.scoreTable[2],self.scoreTable[4],self.scoreTable[5],self.scoreTable[6]}
-   self.gTable = {self.scoreTable[1],self.scoreTable[3],self.scoreTable[4],self.scoreTable[5],self.scoreTable[6],self.scoreTable[7]}
+    --! Sevensegment known outputs
+       self.outputTable[1]   = Score:returnSelectValues({         4, 5      }) 
+       self.outputTable[2]   = Score:returnSelectValues({   2, 3,    5, 6, 7})
+       self.outputTable[3]   = Score:returnSelectValues({      3, 4, 5, 6, 7})
+       self.outputTable[4]   = Score:returnSelectValues({1,       4, 5,    7})
+       self.outputTable[5]   = Score:returnSelectValues({1,    3, 4,    6, 7})
+       self.outputTable[6]   = Score:returnSelectValues({1, 2, 3, 4,    6, 7})
+       self.outputTable[7]   = Score:returnSelectValues({         4, 5, 6   })
+       self.outputTable[8]   = Score:returnSelectValues({1, 2, 3, 4, 5, 6, 7})
+       self.outputTable[9]   = Score:returnSelectValues({1,       4, 5, 6, 7})
+       self.outputTable['0'] = Score:returnSelectValues({1, 2, 3, 4, 5, 6   })
+       self.outputTable['P'] = Score:returnSelectValues({1, 2,       5, 6, 7})
+       self.outputTable['N'] = Score:returnSelectValues({1, 2,    4, 5, 6   })
+       self.outputTable['G'] = Score:returnSelectValues({1,    3, 4, 5, 6, 7})
 
 end
 function Score:returnSelectValues(values)
@@ -38,33 +50,7 @@ function Score:returnSelectValues(values)
    return table
 end
 function Score:draw()
-  if self.scoreCount == 0 then
-   drawScore(self.zeroTable)
-  elseif self.scoreCount == 1 then
-   drawScore(self.oneTable)
-  elseif self.scoreCount == 2 then
-   drawScore(self.twoTable)
-  elseif self.scoreCount == 3 then
-   drawScore(self.threeTable)
-  elseif self.scoreCount == 4 then
-   drawScore(self.fourTable)
-  elseif self.scoreCount == 5 then
-   drawScore(self.fiveTable)
-  elseif self.scoreCount == 6 then
-   drawScore(self.sixTable)
-  elseif self.scoreCount == 7 then
-   drawScore(self.sevenTable)
-  elseif self.scoreCount == 8 then
-   drawScore(self.eightTable)
-  elseif self.scoreCount == 9 then
-   drawScore(self.nineTable)
-  elseif self.scoreCount == "P" then
-   drawScore(self.pTable)
-  elseif self.scoreCount == "N" then
-   drawScore(self.nTable)
-  elseif self.scoreCount == "G" then
-   drawScore(self.gTable)
-  end
+     drawScore(self.outputTable[self.scoreCount])
 end
 function drawScore(enteredTable)
      for i,v in ipairs(enteredTable) do
