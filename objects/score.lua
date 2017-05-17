@@ -7,13 +7,13 @@ function Score:new(area, x, y, opts)
    Score.super.new(self, area, x, y, opts)
    self.scoreCount = opts.scoreCount or 0
    self.scoreTable = {}
-   table.insert(self.scoreTable, Rectangle(self.area,x,y,{width = 20, height = 60})) 
-   table.insert(self.scoreTable, Rectangle(self.area,x,y+40,{width = 20, height = 60}))
-   table.insert(self.scoreTable, Rectangle(self.area,x,y+80,{width = 60, height = 20}))
-   table.insert(self.scoreTable, Rectangle(self.area,x+40,y+40,{width = 20, height = 60}))
-   table.insert(self.scoreTable, Rectangle(self.area,x+40,y,{width = 20, height = 60}))
-   table.insert(self.scoreTable, Rectangle(self.area,x,y,{width = 60, height = 20}))
-   table.insert(self.scoreTable, Rectangle(self.area,x,y+40,{width = 60, height = 20}))
+   table.insert(self.scoreTable, Rectangle(self.area, x,    y,    {width = 20, height = 60})) 
+   table.insert(self.scoreTable, Rectangle(self.area, x,    y+40, {width = 20, height = 60}))
+   table.insert(self.scoreTable, Rectangle(self.area, x,    y+80, {width = 60, height = 20}))
+   table.insert(self.scoreTable, Rectangle(self.area, x+40, y+40, {width = 20, height = 60}))
+   table.insert(self.scoreTable, Rectangle(self.area, x+40, y,    {width = 20, height = 60}))
+   table.insert(self.scoreTable, Rectangle(self.area, x,    y,    {width = 60, height = 20}))
+   table.insert(self.scoreTable, Rectangle(self.area, x,    y+40, {width = 60, height = 20}))
    
    self.oneTable = {self.scoreTable[4],self.scoreTable[5]}
    self.twoTable = {self.scoreTable[2],self.scoreTable[3],self.scoreTable[5],self.scoreTable[6],self.scoreTable[7]}
@@ -29,6 +29,13 @@ function Score:new(area, x, y, opts)
    self.nTable = {self.scoreTable[1],self.scoreTable[2],self.scoreTable[4],self.scoreTable[5],self.scoreTable[6]}
    self.gTable = {self.scoreTable[1],self.scoreTable[3],self.scoreTable[4],self.scoreTable[5],self.scoreTable[6],self.scoreTable[7]}
 
+end
+function Score:returnSelectValues(values)
+   local table
+   for i, #values, 1 do
+      table[i] = self.scoreTable[values[i]]
+    end
+   return table
 end
 function Score:draw()
   if self.scoreCount == 0 then
