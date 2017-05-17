@@ -1,45 +1,37 @@
+--! main.lua
+--! This is my test function to test things
+Object = require "libraries/classic/classic"
+Input = require "libraries/BYTEPATH/Input"
+Timer = require "libraries/BYTEPATH/enhancedTimer"
+require "utils/utils"
+
 function love.load()
-   Object = require "classic"
-   require "shape"
-   require "rectangle"
-   require "board"
-   require "player"
-   require "ball"
-   require "score"
+   --! loads all the files in given folders
+   loadfolder("objects")
+   loadfolder("rooms")
+   current_room = nil
+   --! Initalize classes
+   input = Input()
+   timer = Timer()
+   --! Load in music files (Might want to move this)
+   topHit = love.audio.newSource("audioAssets/topHit.wav", "static")
+   paddleHit = love.audio.newSource("audioAssets/paddleHit.wav", "static")
+   wallHit = love.audio.newSource("audioAssets/wallHit.wav", "static")
+   newFont = love.graphics.newFont("imgAssets/newFont.ttf",20)
+   love.graphics.setFont(newFont)
    
-   topHit = love.audio.newSource("topHit.wav", "static")
-   paddleHit = love.audio.newSource("paddleHit.wav", "static")
-   wallHit = love.audio.newSource("wallHit.wav", "static")
-   math.randomseed( os.time() )
-   love.window.setMode( 800, 600)
-   player1 = Player(10,0,20,90,"w","s")
-   player2 = Player(770,0,20,90,"up","down")
-   ball = Ball()
-   Board = Board()
-   Score1 = Score(400-80,40)
-   Score2 = Score(400+40,40)
-end
-function love.keypressed(key)
-  if key == "escape" then
-    love.event.quit()
-  end
-    player1:keyPressed(key)
-    player2:keyPressed(key)
-end
-function love.keyreleased(key)
-    player1:keyReleased(key)
-    player2:keyReleased(key)
+   input:bind("return", function() gotoRoom("Stage") end)
+   input:bind("2", function() gotoRoom("Menu") end)
+   current_room = nil
+   gotoRoom("Menu")
 end
 function love.update(dt)
-   player1:update(dt)
-   player2:update(dt)
-   ball:update(dt)
+    if current_room then current_room:update(dt) end
+    timer:update(dt)
 end
 function love.draw()
-   Score1:draw()
-   Score2:draw()
-   Board:draw()
-   player1:draw()
-   player2:draw()
-   ball:draw()
+    if current_room then current_room:draw() end
+end
+function gotoRoom(room_type, ...)
+    current_room = _G[room_type](...)
 end
