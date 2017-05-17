@@ -4,13 +4,17 @@ function Ball:new(area, x, y, opts)
     self:reset()
 end
 function Ball:update(dt)
-    Ball.super.update(self, dt)
+    --! Get where we want to move
+    --! Perform collision check
     self:stopCollision("topBoarder",bottomBounceBall)
     self:stopCollision("bottomBoarder",topBounceBall)
     self:stopCollision("player1",rightBounce)
     self:stopCollision("player2",leftBounce)
     self:stopCollision("leftBoarder",rightBound)
     self:stopCollision("rightBoarder",leftBound)
+    --! Deal with collision
+    --! Update location
+    Ball.super.update(self, dt)
 end
 --! Checks if ball intersects passed object if so does passed function
 function Ball:stopCollision(object,funct)
